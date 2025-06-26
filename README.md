@@ -2,7 +2,7 @@
 
 ## Descrição do Projeto
 
-Na nossa região, um grupo de restaurantes se uniu para desenvolver um sistema de gestão compartilhado, visando reduzir custos com soluções individuais. O sistema permitirá que os clientes escolham restaurantes pela comida oferecida, e não pela qualidade do sistema de gestão. O objetivo é criar uma plataforma robusta para que todos os restaurantes possam gerenciar suas operações, enquanto os clientes poderão consultar informações, deixar avaliações e fazer pedidos online. Devido à limitação de recursos, a entrega será feita em fases, possibilitando uma implementação gradual, com ajustes e melhorias contínuas conforme o uso e feedback dos restaurantes e clientes.
+O Establishment Manager é uma aplicação web desenvolvida para facilitar a gestão de restaurantes de forma centralizada e colaborativa. A plataforma permite que restaurantes cadastrem e gerenciem seus estabelecimentos, cardápios e pedidos, enquanto clientes podem consultar informações, avaliar restaurantes e realizar pedidos online. O sistema foi projetado para ser entregue em fases, possibilitando evolução contínua conforme o uso e feedback dos usuários.
 
 ## Pré-requisitos
 
