@@ -13,7 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
+import org.springframework.lang.NonNull;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -34,8 +34,10 @@ public class SecurityFilter extends OncePerRequestFilter {
      * associando-o ao contexto de segurança.
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         // Recupera o token de autenticação do cabeçalho da requisição
         var token = this.recoverToken(request);
