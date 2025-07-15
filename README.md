@@ -1,56 +1,96 @@
-# Establishment Manager - PÓS TECH FIAP
+# FIAP Tech Challenge - Establishment Manager
 
-## Descrição do Projeto
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)
+![Docker](https://img.shields.io/badge/Docker-✓-blue)
+![Maven](https://img.shields.io/badge/Maven-4.0.0-red)
+![Flyway](https://img.shields.io/badge/Flyway-✓-green)
 
-O Establishment Manager é uma aplicação web desenvolvida para facilitar a gestão de restaurantes de forma centralizada e colaborativa. A plataforma permite que restaurantes cadastrem e gerenciem seus estabelecimentos, cardápios e pedidos, enquanto clientes podem consultar informações, avaliar restaurantes e realizar pedidos online. O sistema foi projetado para ser entregue em fases, possibilitando evolução contínua conforme o uso e feedback dos usuários.
+Este projeto é a resolução do Tech Challenge da FIAP, desenvolvido em: Java, Spring Boot, MySQL e Docker.
 
-## Pré-requisitos
+## Como Utilizar
 
-- [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+Esta seção fornece instruções completas para configurar e executar a aplicação.
 
-## Subindo a aplicação com Docker
+### Pré-requisitos
 
-1. **Clone o repositório:**
-   ```bash
-   git clone <URL_DO_REPOSITORIO>
-   cd establishment.manager
-   ```
+- Docker e Docker Compose
+- Java 21 (para desenvolvimento local)
+- Maven (para build local)
 
-2. **(Opcional) Ajuste o arquivo `application.properties` se necessário.**
-   - O arquivo já está configurado para uso do H2 Database em memória e acesso ao H2 Console.
+### Variáveis de Ambiente
 
-3. **Construa e suba os containers:**
-   ```bash
-   docker-compose up --build
-   ```
-   Isso irá:
-   - Construir a imagem da aplicação
-   - Subir o container na porta 8080
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis ou copie o arquivo `.env.example` fornecido:
 
-4. **Acesse a aplicação:**
-   - API: http://localhost:8080
-   - H2 Console: http://localhost:8080/h2-console
-
-     - **JDBC URL:** `jdbc:h2:mem:establishment.manager`
-     - **Usuário:** `sa`
-     - **Senha:** `password`
-
-   > **Obs:** Se aparecer o erro `Sorry, remote connections ('webAllowOthers') are disabled on this server.`, adicione a linha abaixo ao seu `application.properties`:
-   >
-   > `spring.h2.console.settings.web-allow-others=true`
-
-## Parar a aplicação
-
-Para parar e remover os containers:
 ```bash
-docker-compose down
+cp .env.example .env
 ```
 
-## Observações
-- O banco H2 está em modo memória, ou seja, os dados são perdidos ao parar o container.
-- O H2 Console é exposto apenas para facilitar o desenvolvimento. Não utilize em produção.
+Em seguida, edite o arquivo `.env` com seus valores:
 
----
+```env
+MYSQL_DATABASE=nome_do_banco
+MYSQL_USER=usuario
+MYSQL_PASSWORD=senha
+MYSQL_ROOT_PASSWORD=senha_root
+```
 
-Se tiver dúvidas ou problemas, abra uma issue ou entre em contato com o mantenedor do projeto. 
+### Executando a Aplicação
+
+#### Implantação com Docker
+
+Execute o container:
+
+```bash
+docker-compose up -d --build
+```
+
+> Lembre-se de substituir as variáveis no arquivo `.env` com os valores apropriados para o seu ambiente.
+
+Isso iniciará:
+- Banco de dados MySQL na porta 3306
+- Aplicação Spring Boot na porta 8080
+- PHPMyAdmin na porta 8081 para gerenciamento do banco de dados
+
+#### Acessando a Aplicação
+
+- API: http://localhost:8080
+- PHPMyAdmin: http://localhost:8081
+  - Servidor: mysql
+  - Usuário: [valor de MYSQL_USER]
+  - Senha: [valor de MYSQL_PASSWORD]
+
+### Desenvolvimento Local
+
+Para desenvolvimento local sem Docker:
+
+1. Configure um banco de dados MySQL local na porta 3306
+
+2. Configure as variáveis de ambiente ou crie um arquivo `.env` na raiz do projeto
+
+3. Execute a aplicação:
+
+```bash
+mvn spring-boot:run
+```
+
+## Arquitetura do Projeto
+
+### Estrutura Docker
+
+O projeto utiliza um processo de build em múltiplas etapas:
+
+1. **Etapa de cache**: Baixa as dependências Maven
+2. **Etapa de build**: Compila a aplicação
+3. **Etapa de execução**: Executa a aplicação em um container JRE
+
+### Perfis de Configuração
+
+- **local**: Configuração padrão para desenvolvimento local
+- **docker**: Configuração otimizada para execução em containers Docker
+
+### Banco de Dados
+
+O projeto utiliza MySQL 8.0 com Flyway para migrações. As migrações estão localizadas em `src/main/resources/db/migration`.
+
