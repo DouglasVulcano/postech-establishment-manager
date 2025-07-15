@@ -5,7 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tech.challenge.establishment.manager.entities.User;
-import tech.challenge.establishment.manager.repositories.implementations.UserRepositoryImp;
+import tech.challenge.establishment.manager.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +25,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     TokenService tokenService;
 
     @Autowired
-    UserRepositoryImp userRepository;
+    UserRepository userRepository;
 
     /**
      * Este método é chamado em cada requisição. Ele recupera o token de

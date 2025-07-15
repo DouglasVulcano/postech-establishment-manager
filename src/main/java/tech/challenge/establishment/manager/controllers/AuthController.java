@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import tech.challenge.establishment.manager.entities.User;
 import tech.challenge.establishment.manager.dtos.LoginRequestDto;
 import tech.challenge.establishment.manager.dtos.RegisterRequestDto;
-import tech.challenge.establishment.manager.entities.User;
 import tech.challenge.establishment.manager.infra.security.TokenService;
 import tech.challenge.establishment.manager.services.UserService;
 
@@ -20,7 +20,7 @@ import tech.challenge.establishment.manager.services.UserService;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    
+
     private final UserService userService;
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;

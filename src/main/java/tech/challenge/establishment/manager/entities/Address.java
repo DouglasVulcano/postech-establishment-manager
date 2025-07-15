@@ -1,36 +1,59 @@
 package tech.challenge.establishment.manager.entities;
 
-import java.time.LocalDate;
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Getter;
 
+@Entity
+@Table(name = "addresses")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@Table("address")
-public class Address {
+@AllArgsConstructor
+public class Address implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userId;
-    private String postalCode;
+
     private String street;
-    private String neighborhood;
     private String city;
+    private String postalCode;
     private String state;
-    
-    @CreatedDate
-    private LocalDate createdAt;
-    @LastModifiedDate
-    private LocalDate updatedAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime createdAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime updatedAt;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, unique = true)
+    @JsonManagedReference
+    private User user;
+
+    public Address(String postalCode, String street, String city, String state, User user) {
+        this.postalCode = postalCode;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.user = user;
+    }
 }

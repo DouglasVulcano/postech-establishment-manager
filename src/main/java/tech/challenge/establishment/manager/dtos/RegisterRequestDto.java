@@ -1,5 +1,7 @@
 package tech.challenge.establishment.manager.dtos;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tech.challenge.establishment.manager.config.EnumCaseInsensitiveConverter;
 import tech.challenge.establishment.manager.entities.LoginType;
 
 public record RegisterRequestDto(
@@ -7,10 +9,8 @@ public record RegisterRequestDto(
         String email,
         String password,
         LoginType login,
-        Long userId,
         String postalCode,
         String street,
-        String neighborhood,
         String city,
         String state) {
 }
