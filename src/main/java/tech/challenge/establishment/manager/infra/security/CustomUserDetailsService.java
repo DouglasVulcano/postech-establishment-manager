@@ -1,7 +1,5 @@
 package tech.challenge.establishment.manager.infra.security;
 
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,11 +32,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = this.userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
 
-        // Retorna uma instância de UserDetails com o email, senha e uma lista vazia de
-        // permissões
+        // Retorna uma instância de UserDetails com o email, senha e as autoridades definidas no objeto User
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                Collections.emptyList());
+                user.getAuthorities());
     }
 }

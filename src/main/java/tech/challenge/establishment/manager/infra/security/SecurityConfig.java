@@ -45,6 +45,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
+                        // Endpoints acessíveis apenas por admins
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        // Endpoints acessíveis por usuários comuns e admins
+                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         // Exige autenticação para qualquer outra requisição
                         .anyRequest().authenticated())
                 // Sem isso, o navegador pode bloquear o carregamento do h2-console por questões de

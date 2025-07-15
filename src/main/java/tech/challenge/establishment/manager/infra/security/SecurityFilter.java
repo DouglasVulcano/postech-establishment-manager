@@ -9,14 +9,12 @@ import tech.challenge.establishment.manager.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.lang.NonNull;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -51,8 +49,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             User user = userRepository.findByEmail(login)
                     .orElseThrow(() -> new RuntimeException("User Not Found"));
 
-            // Define a autoridade padrão do usuário como "ROLE_USER"
-            var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+            // Usa as autoridades definidas no objeto User
+            var authorities = user.getAuthorities();
 
             // Cria um objeto de autenticação com o usuário autenticado e suas permissões
             var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
